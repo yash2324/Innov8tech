@@ -13,6 +13,9 @@ const config: Config = {
     borderColor: {
       DEFAULT: "black",
     },
+    container: {
+      center: true,
+    },
   },
   plugins: [],
 };
