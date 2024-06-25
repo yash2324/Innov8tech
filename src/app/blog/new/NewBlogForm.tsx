@@ -83,7 +83,7 @@ const NewBlogForm = (props: Props) => {
       >
         <input
           type="text"
-          className="text-6xl focus-visible:outline-none"
+          className="ml-2 text-6xl focus-visible:outline-none"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -91,7 +91,8 @@ const NewBlogForm = (props: Props) => {
         />
         <textarea
           name="content"
-          className="flex-1 focus-visible:outline-none text-4xl mt-2"
+          placeholder="Content"
+          className="ml-2 flex-1 focus-visible:outline-none text-4xl mt-2"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
