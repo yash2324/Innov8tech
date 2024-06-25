@@ -10,7 +10,7 @@ const Header = (props: Props) => {
     <SessionProvider>
       <div className="px-2 py-4 border-b flex justify-between items-center">
         <Link href={"/"}>
-          <div className="heading text-3xl">Yash's Blog</div>
+          <div className="heading text-3xl">Innov8Tech</div>
         </Link>
         <Button />
       </div>
