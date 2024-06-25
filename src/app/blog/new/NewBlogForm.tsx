@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { createPost } from "@/app/actions/publishPost";
 import Link from "next/link";
@@ -49,13 +49,13 @@ const NewBlogForm = (props: Props) => {
     const data = await response.json();
     setContent(data.content);
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const user = session?.user as any;
     const userId = user?.id;
 
     if (!userId) return;
     try {
-      setSubmitted(true);
       let newPost: Prisma.PostUncheckedCreateInput = {
         title,
         content,
@@ -64,6 +64,7 @@ const NewBlogForm = (props: Props) => {
       };
       const post = await createPost(newPost);
       setPostID(post.id);
+      setSubmitted(true);
     } catch (error) {
       console.log(error);
     }

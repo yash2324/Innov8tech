@@ -11,7 +11,7 @@ const page = async ({
 }) => {
   const post = await prisma.post.findUnique({
     where: {
-      id: Number(params.id),
+      id: Number(params?.id),
     },
     include: {
       author: true,
@@ -24,7 +24,7 @@ const page = async ({
         <>
           {post.imgURL && (
             <div
-              className="w-full h-24 my-4 bg-contain bg-no-repeat"
+              className="w-full h-96 my-4 bg-contain bg-no-repeat"
               style={{ backgroundImage: `url(${post.imgURL})` }}
             ></div>
           )}
