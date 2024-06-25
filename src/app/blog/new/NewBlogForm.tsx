@@ -108,7 +108,7 @@ const NewBlogForm = (props: Props) => {
             {thumbnail ? "Change Image" : "Add thumbnail image(optional)"}
           </label>
           <UploadButton
-            className="items-start"
+            className=" mx-auto"
             endpoint="imageUploader"
             onClientUploadComplete={(res) => {
               // Do something with the response
@@ -122,11 +122,11 @@ const NewBlogForm = (props: Props) => {
               alert(`ERROR! ${error.message}`);
             }}
           />
-          <CategoryDropdown
+          {/* <CategoryDropdown
             list={props.blogCategories}
             selected={categoryId}
             setSelected={(selected: number) => setCategoryId(selected)}
-          />
+          /> */}
         </div>
         <button
           type="submit"
