@@ -13,7 +13,7 @@ const Footer = (props: Props) => {
         <div className="flex flex-row items-center">
           <div>
             <div className="text-2xl mb-3">Yash Gupta</div>
-            <div className="text-sm">© 20234 Yash Gupta</div>
+            <div className="text-sm">© 2024 Yash Gupta</div>
           </div>
         </div>
         <div className="flex">
