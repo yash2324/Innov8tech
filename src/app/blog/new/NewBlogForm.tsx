@@ -6,11 +6,11 @@ import Link from "next/link";
 import type { Category } from "@prisma/client";
 import CategoryDropdown from "./categoryDropdown";
 import { Prisma } from "@prisma/client";
-
+import { GoogleGenerativeAI } from "@google/generative-ai";
 type Props = {
   blogCategories: Category[];
 };
-
+const api_key = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string;
 // You need to import our styles for the button to look right. Best to import in the root /layout.tsx but this is fine
 import "@uploadthing/react/styles.css";
 
@@ -18,7 +18,8 @@ import { UploadButton } from "../../utils/uploadthing";
 
 const NewBlogForm = (props: Props) => {
   const { data: session, status } = useSession();
-
+  const genAI = new GoogleGenerativeAI(api_key);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<string | null>(null);
@@ -31,30 +32,38 @@ const NewBlogForm = (props: Props) => {
   if (!session && status !== "loading")
     return <div>You must be signed in to post</div>;
 
-  console.log(props.blogCategories);
+  const handleAiGenerate = async () => {
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title }),
+    });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    if (!response.ok) {
+      console.error("Failed to generate AI content");
+      return;
+    }
+
+    const data = await response.json();
+    setContent(data.content);
+  };
+  const handleSubmit = async () => {
     const user = session?.user as any;
     const userId = user?.id;
 
     if (!userId) return;
     try {
+      setSubmitted(true);
       let newPost: Prisma.PostUncheckedCreateInput = {
         title,
         content,
         authorId: userId,
         imgURL: thumbnail,
       };
-
-      if (categoryId) {
-        newPost.categories = {
-          connect: [{ id: categoryId }],
-        };
-      }
       const post = await createPost(newPost);
       setPostID(post.id);
-      setSubmitted(true);
     } catch (error) {
       console.log(error);
     }
@@ -89,6 +98,15 @@ const NewBlogForm = (props: Props) => {
           onChange={(e) => setTitle(e.target.value)}
           name="title"
         />
+        {title && (
+          <button
+            type="button"
+            onClick={handleAiGenerate}
+            className="w-[40%] mx-auto text-white bg-pink-400 hover:bg-pink-500 px-4 py-2 sm:px-6 sm:py-4 mt-6 border-2 rounded shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,1)]"
+          >
+            ✨ Generate Article ✨
+          </button>
+        )}
         <textarea
           name="content"
           placeholder="Content"
@@ -130,7 +148,7 @@ const NewBlogForm = (props: Props) => {
         </div>
         <button
           type="submit"
-          className="w-fit-content text-white bg-indigo-400 px-4 py-2 sm:px-6 sm:py-4 mt-6 border-2 rounded shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,1)]"
+          className="w-fit-content text-white bg-indigo-400 hover:bg-indigo-500 px-4 py-2 sm:px-6 sm:py-4 mt-6 border-2 rounded shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,1)]"
         >
           Create
         </button>

@@ -22,11 +22,6 @@ const AllPosts = (props: Props) => {
 
   return (
     <>
-      <CategorySelector
-        categories={props.categories}
-        selectedCategoryId={selectedCategoryId}
-        selectCategory={handleCategoryClick}
-      />
       <PostsList posts={filteredPosts} />
     </>
   );

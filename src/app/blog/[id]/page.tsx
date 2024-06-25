@@ -1,7 +1,7 @@
 import React from "react";
 import { prisma } from "../../../../lib/prisma";
 type Props = {};
-
+import ReactMarkdown from "react-markdown";
 const page = async ({
   params,
 }: {
@@ -37,7 +37,7 @@ const page = async ({
             ></div>
             <p className="text-sm text-gray-500">{post?.author?.name}</p>
           </div>
-          <p className="mt-4">{post.content}</p>
+          <ReactMarkdown className="mt-4">{post.content}</ReactMarkdown>
         </>
       )}
     </div>
