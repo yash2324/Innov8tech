@@ -13,13 +13,13 @@ const HeroSection = (props: Props) => {
           Browse Articles
         </button>
       </div>
-      <div className="col-span-5">
+      <div className="col-span-5 text-center">
         <Image
           src="/image.png"
           width={400}
           height={400}
           alt="text"
-          className=""
+          className="justify-center place-self-center items-center"
         />
       </div>
     </section>
