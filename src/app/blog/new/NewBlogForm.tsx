@@ -95,7 +95,7 @@ const NewBlogForm = (props: Props) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <div className="self-start">
+        <div className="self-center">
           {thumbnail && (
             <img
               src={thumbnail}
