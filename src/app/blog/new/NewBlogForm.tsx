@@ -7,9 +7,7 @@ import type { Category } from "@prisma/client";
 import CategoryDropdown from "./categoryDropdown";
 import { Prisma } from "@prisma/client";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-type Props = {
-  blogCategories: Category[];
-};
+type Props = {};
 const api_key = process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string;
 // You need to import our styles for the button to look right. Best to import in the root /layout.tsx but this is fine
 import "@uploadthing/react/styles.css";
