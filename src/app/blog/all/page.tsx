@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AllPosts from "./AllPosts";
 import { Post, Category } from "@prisma/client";
 import { PostsList } from "./PostsList";
 export type PostWithCategories = Post;
