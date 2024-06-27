@@ -2,9 +2,7 @@ import React from "react";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 
-type Post = Prisma.PostGetPayload<{
-  include: { categories: true };
-}>;
+type Post = Prisma.PostGetPayload<{}>;
 
 export type PostListProps = {
   posts: Post[];
@@ -41,7 +39,7 @@ export const PostsList = (props: PostListProps) => {
             </article>
             <div className="px-6 py-5 text-left h-full">
               <p className="text-base mb-4">
-                {post.createdAt?.toLocaleString()}
+                {new Date(post.createdAt).toLocaleString()}
               </p>
               <h1 className="text-xl mb-4">{post.title}</h1>
               <p className="text-xs mb-4 line-clamp-4">{post.content}</p>

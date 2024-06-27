@@ -1,29 +1,38 @@
-import React from "react";
-import { prisma } from "../../../../lib/prisma";
-import { Prisma } from "@prisma/client";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import AllPosts from "./AllPosts";
+import { Post, Category } from "@prisma/client";
+import { PostsList } from "./PostsList";
+export type PostWithCategories = Post;
+const fetchAllPosts = async () => {
+  const response = await fetch("/api/posts/");
+  const data = await response.json();
+  return data;
+};
 
-const Page = async () => {
-  type PostWithCategories = Prisma.PostGetPayload<{
-    include: { categories: true };
-  }>;
+const Page = () => {
+  const [allPosts, setAllPosts] = useState<PostWithCategories[]>([]);
 
-  console.log("Fetching posts and categories...");
-  const posts: PostWithCategories[] = await prisma.post.findMany({
-    include: {
-      categories: true,
-    },
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchAllPosts();
+        const response = data.posts;
+        setAllPosts(response);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        // Handle error state if needed
+      }
+    };
 
-  const categories = await prisma.category.findMany();
-
-  console.log("Posts fetched:", posts);
-  console.log("Categories fetched:", categories);
-
+    fetchData();
+  }, []); // Empty dependency array to run once on mount
+  console.log(allPosts);
   return (
     <div className="my-24 container">
       <h2 className="text-4xl text-center my-6">All Articles</h2>
-      <AllPosts categories={categories} posts={posts} />
+      <PostsList posts={allPosts} />
     </div>
   );
 };
