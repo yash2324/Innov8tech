@@ -3,13 +3,12 @@ import { prisma } from "../../../../lib/prisma";
 import { Prisma } from "@prisma/client";
 import AllPosts from "./AllPosts";
 
-type Props = {};
-
-const page = async (props: Props) => {
+const Page = async () => {
   type PostWithCategories = Prisma.PostGetPayload<{
     include: { categories: true };
   }>;
 
+  console.log("Fetching posts and categories...");
   const posts: PostWithCategories[] = await prisma.post.findMany({
     include: {
       categories: true,
@@ -17,6 +16,9 @@ const page = async (props: Props) => {
   });
 
   const categories = await prisma.category.findMany();
+
+  console.log("Posts fetched:", posts);
+  console.log("Categories fetched:", categories);
 
   return (
     <div className="my-24 container">
@@ -26,4 +28,4 @@ const page = async (props: Props) => {
   );
 };
 
-export default page;
+export default Page;
